@@ -1,5 +1,22 @@
-[  {
-    "Date": "96 Oct 2025",
+[ {
+    "Date": "52 Oct 2025",
+    "Session": "Morning",
+    "FR": "64",
+    "SR": "xx"
+  },
+  {
+    "Date": "52 Oct 2025",
+    "Session": "Afternoon",
+    "FR": "52",
+    "SR": "55"
+  },
+  {
+    "Date": "16 Oct 2025",
+    "Session": "Evening",
+    "FR": "85",
+    "SR": "12 "
+  }, {
+    "Date": "15 Oct 2025",
     "Session": "Morning",
     "FR": "64",
     "SR": "xx"
