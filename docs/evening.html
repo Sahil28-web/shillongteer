@@ -4,7 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Evening Teer Result</title>
-<link rel="stylesheet" href="style.css">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<link rel="stylesheet" href="style.css?v=20251024">
 </head>
 <body>
 <header>
@@ -42,9 +45,18 @@
   <p>© 2025 Teer Results</p>
 </footer>
 
-<script src="script.js"></script>
+<script src="script.js?v=20251024"></script>
 <script>
   const sessionName = "Evening"; // tell JS which session to show
+</script>
+<script>
+  (function(){
+    const SITE_VERSION = '2025-10-24-1';
+    if (localStorage.getItem('SITE_VERSION') !== SITE_VERSION) {
+      localStorage.setItem('SITE_VERSION', SITE_VERSION);
+      location.reload();
+    }
+  })();
 </script>
 </body>
 </html>
