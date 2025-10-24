@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>About Morning Teer</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=20251024" />
 </head>
 <body>
   <header>
@@ -34,5 +37,14 @@
   <footer>
     <p>© 2025 Morning Teer Results</p>
   </footer>
+<script>
+  (function(){
+    const SITE_VERSION = '2025-10-24-1';
+    if (localStorage.getItem('SITE_VERSION') !== SITE_VERSION) {
+      localStorage.setItem('SITE_VERSION', SITE_VERSION);
+      location.reload();
+    }
+  })();
+</script>
 </body>
 </html>
