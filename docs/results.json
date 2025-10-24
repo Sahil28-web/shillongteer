@@ -1,0 +1,92 @@
+[  {
+    "Date": "23 Oct 2025",
+    "Session": "Morning",
+    "FR": "65",
+    "SR": "88"
+  },
+  {
+    "Date": "19 Oct 2025",
+    "Session": "Afternoon",
+    "FR": "52",
+    "SR": "55"
+  },
+  {
+    "Date": "19 Oct 2025",
+    "Session": "Evening",
+    "FR": "85",
+    "SR": "12 "
+  },{
+    "Date": "18 Oct 2025",
+    "Session": "Morning",
+    "FR": "62",
+    "SR": "88"
+  },
+  {
+    "Date": "18 Oct 2025",
+    "Session": "Afternoon",
+    "FR": "41",
+    "SR": "55"
+  },
+  {
+    "Date": "18 Oct 2025",
+    "Session": "Evening",
+    "FR": "29",
+    "SR": "33"
+  },
+  {
+    "Date": "17 Oct 2025",
+    "Session": "Morning",
+    "FR": "62",
+    "SR": "88"
+  },
+  {
+    "Date": "17 Oct 2025",
+    "Session": "Afternoon",
+    "FR": "41",
+    "SR": "55"
+  },
+  {
+    "Date": "17 Oct 2025",
+    "Session": "Evening",
+    "FR": "29",
+    "SR": "33"
+  },
+
+  {
+    "Date": "16 Oct 2025",
+    "Session": "Morning",
+    "FR": "45",
+    "SR": "21"
+  },
+  {
+    "Date": "16 Oct 2025",
+    "Session": "Afternoon",
+    "FR": "50",
+    "SR": "44"
+  },
+  {
+    "Date": "16 Oct 2025",
+    "Session": "Evening",
+    "FR": "31",
+    "SR": "39"
+  },
+
+  {
+    "Date": "15 Oct 2025",
+    "Session": "Morning",
+    "FR": "13",
+    "SR": "50"
+  },
+  {
+    "Date": "15 Oct 2025",
+    "Session": "Afternoon",
+    "FR": "20",
+    "SR": "36"
+  },
+  {
+    "Date": "15 Oct 2025",
+    "Session": "Evening",
+    "FR": "25",
+    "SR": "40"
+  }
+]

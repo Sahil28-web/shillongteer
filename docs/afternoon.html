@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Afternoon Teer Result</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Afternoon Teer Result</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="afternoon.html">Afternoon</a>
+    <a href="evening.html">Evening</a>
+    <a href="about.html">About</a>
+  </nav>
+</header>
+
+<main>
+  <section class="today-result">
+    <h2>Today’s afternoon Result</h2>
+    <div><strong>First Round (FR):</strong> <span id="fr">–</span></div>
+    <div><strong>Second Round (SR):</strong> <span id="sr">–</span></div>
+    <div><em><span id="res-date">–</span></em></div>
+  </section>
+
+  <section class="last-results">
+    <h3>Last 5 Results</h3>
+    <table>
+      <thead>
+        <tr><th>Date</th><th>FR</th><th>SR</th></tr>
+      </thead>
+      <tbody id="results-body">
+        <tr><td colspan="3">Loading…</td></tr>
+      </tbody>
+    </table>
+  </section>
+</main>
+
+<footer>
+  <p>© 2025 Teer Results</p>
+</footer>
+
+<script src="script.js"></script>
+<script>
+  const sessionName = "Afternoon"; // tell JS which session to show
+</script>
+</body>
+</html>

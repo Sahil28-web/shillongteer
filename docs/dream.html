@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dream Numbers</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Dream Numbers</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <div class="results-controls dream-controls">
+        <div class="search-bar">
+          <input id="dream-search" type="search" placeholder="Search by dream or number..." />
+          <select id="dream-field" aria-label="Filter field">
+            <option value="all">All</option>
+            <option value="dream">Dream</option>
+            <option value="direct">Direct</option>
+            <option value="house">House</option>
+            <option value="ending">Ending</option>
+          </select>
+          <button id="dream-clear" type="button" title="Clear search">Clear</button>
+        </div>
+        <div class="muted" id="dream-count"></div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Sl. No</th>
+            <th>Dream</th>
+            <th>Direct</th>
+            <th>House</th>
+            <th>Ending</th>
+          </tr>
+        </thead>
+        <tbody id="dream-body">
+          <tr><td colspan="5">Loading…</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Teer Results</p>
+  </footer>
+
+  <script src="dream.js"></script>
+</body>
+</html>

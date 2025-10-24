@@ -1,0 +1,78 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - name: "results"
+    label: "Results"
+    files:
+      - name: "results_json"
+        label: "Teer Results"
+        file: "results.json"
+        format: "json"
+        fields:
+          - label: "Items"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.Date}} - {{fields.Session}}"
+            fields:
+              - {label: "Date", name: "Date", widget: "string"}
+              - {label: "Session", name: "Session", widget: "select", options: ["Morning","Afternoon","Evening"]}
+              - {label: "FR", name: "FR", widget: "string"}
+              - {label: "SR", name: "SR", widget: "string"}
+
+  - name: "dreams"
+    label: "Dream Numbers"
+    files:
+      - name: "dream_json"
+        label: "Dream Mapping"
+        file: "dream.json"
+        format: "json"
+        fields:
+          - label: "Items"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.sl}} - {{fields.dream}}"
+            fields:
+              - {label: "Sl. No", name: "sl", widget: "number"}
+              - {label: "Dream", name: "dream", widget: "string"}
+              - label: "Direct"
+                name: "direct"
+                widget: "list"
+                field: {label: "Number", name: "number", widget: "string"}
+              - label: "House"
+                name: "house"
+                widget: "list"
+                field: {label: "Number", name: "number", widget: "string"}
+              - label: "Ending"
+                name: "ending"
+                widget: "list"
+                field: {label: "Number", name: "number", widget: "string"}
+
+  - name: "common"
+    label: "Common Numbers"
+    files:
+      - name: "common_json"
+        label: "Common Data"
+        file: "common.json"
+        format: "json"
+        fields:
+          - label: "Items"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.Date}} - {{fields.Place}}"
+            fields:
+              - { label: "Date", name: "Date", widget: "string" }
+              - { label: "Place", name: "Place", widget: "string" }
+              - label: "Rows"
+                name: "Rows"
+                widget: "list"
+                fields:
+                  - { label: "Direct", name: "Direct", widget: "string" }
+                  - { label: "House", name: "House", widget: "string" }
+                  - { label: "Ending", name: "Ending", widget: "string" }

@@ -1,0 +1,492 @@
+[
+  {
+    "sl": 1,
+    "dream": "Quarrel between husband and wife",
+    "direct": ["03","08","13","37","40","73"],
+    "house": [],
+    "ending": ["3"]
+  },
+  {
+    "sl": 2,
+    "dream": "Erotic dream",
+    "direct": ["17","40","53","59","60","83"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 3,
+    "dream": "Bathing in the open",
+    "direct": ["08","18","28","48","78","98"],
+    "house": [],
+    "ending": ["8"]
+  },
+  {
+    "sl": 4,
+    "dream": "Travelling",
+    "direct": ["08","14","18","52","64","68","74","78","98"],
+    "house": [],
+    "ending": ["8"]
+  },
+  {
+    "sl": 5,
+    "dream": "Travelling in an aeroplane",
+    "direct": ["23","43","53","63","68","73","83","93"],
+    "house": [],
+    "ending": ["3"]
+  },
+  {
+    "sl": 6,
+    "dream": "Taking a walk",
+    "direct": [],
+    "house": [],
+    "ending": ["0","1"]
+  },
+  {
+    "sl": 7,
+    "dream": "Studying",
+    "direct": [],
+    "house": [],
+    "ending": ["5"]
+  },
+  {
+    "sl": 8,
+    "dream": "Corpse",
+    "direct": [],
+    "house": ["9"],
+    "ending": ["9"]
+  },
+  {
+    "sl": 9,
+    "dream": "Playing",
+    "direct": ["00","27","40","50","57","60"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 10,
+    "dream": "Talking over the phone",
+    "direct": ["98","96","94"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 11,
+    "dream": "Eating",
+    "direct": ["01","02","05","15","16","45","75","85","95"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 12,
+    "dream": "Breast Feeding",
+    "direct": ["02","03","05","12","20","52","53"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 13,
+    "dream": "Male",
+    "direct": ["6"],
+    "house": ["6"],
+    "ending": []
+  },
+  {
+    "sl": 14,
+    "dream": "Female",
+    "direct": ["5"],
+    "house": ["5"],
+    "ending": []
+  },
+  {
+    "sl": 15,
+    "dream": "Child",
+    "direct": ["2","3"],
+    "house": ["2","3"],
+    "ending": []
+  },
+  {
+    "sl": 16,
+    "dream": "Police",
+    "direct": ["7","87","8"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 17,
+    "dream": "Wild Pig",
+    "direct": ["46"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 18,
+    "dream": "Snake or ilea fish",
+    "direct": ["09","17","37","57","77","99"],
+    "house": [],
+    "ending": ["7"]
+  },
+  {
+    "sl": 19,
+    "dream": "Cow, goat or buffalo",
+    "direct": ["12","18","19","22","24","34","42","54","72","74","84","94","97"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 20,
+    "dream": "Cow",
+    "direct": ["4"],
+    "house": ["4"],
+    "ending": []
+  },
+  {
+    "sl": 21,
+    "dream": "Tiger",
+    "direct": ["9"],
+    "house": ["9"],
+    "ending": []
+  },
+  {
+    "sl": 22,
+    "dream": "Dog",
+    "direct": ["4","5","6"],
+    "house": ["4"],
+    "ending": []
+  },
+  {
+    "sl": 23,
+    "dream": "Horse",
+    "direct": ["8"],
+    "house": ["8"],
+    "ending": []
+  },
+  {
+    "sl": 24,
+    "dream": "Bird",
+    "direct": ["2"],
+    "house": ["2"],
+    "ending": []
+  },
+  {
+    "sl": 25,
+    "dream": "Elephant",
+    "direct": ["9"],
+    "house": ["9"],
+    "ending": []
+  },
+  {
+    "sl": 26,
+    "dream": "Snail",
+    "direct": ["0"],
+    "house": ["0"],
+    "ending": ["0"]
+  },
+  {
+    "sl": 27,
+    "dream": "Turtle",
+    "direct": ["9"],
+    "house": ["9"],
+    "ending": []
+  },
+  {
+    "sl": 28,
+    "dream": "Crab",
+    "direct": ["6","2"],
+    "house": ["6"],
+    "ending": ["2"]
+  },
+  {
+    "sl": 29,
+    "dream": "Spider",
+    "direct": ["6","12"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 30,
+    "dream": "Honey bee",
+    "direct": ["74","24","14","04","94"],
+    "house": [],
+    "ending": ["4"]
+  },
+  {
+    "sl": 31,
+    "dream": "Insect",
+    "direct": ["37","21"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 32,
+    "dream": "Sour fruits",
+    "direct": ["00","03","11","12","13","23","32","43","53","63","70","73","79","93"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 33,
+    "dream": "Paddy field",
+    "direct": ["24","38","52","54","64","68","74"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 34,
+    "dream": "Pumpkin",
+    "direct": ["28","35","48","53","58","68","78","88","98"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 35,
+    "dream": "Bamboo",
+    "direct": ["0","1"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 36,
+    "dream": "Big Tree",
+    "direct": ["8","9"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 37,
+    "dream": "Small tree",
+    "direct": ["2","3","8"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 39,
+    "dream": "Banana",
+    "direct": ["11","3"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 40,
+    "dream": "Jackfruit",
+    "direct": ["4"],
+    "house": [],
+    "ending": ["4"]
+  },
+  {
+    "sl": 41,
+    "dream": "Papaya",
+    "direct": ["1","12"],
+    "house": ["1"],
+    "ending": []
+  },
+  {
+    "sl": 42,
+    "dream": "Orange",
+    "direct": ["8","9"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 43,
+    "dream": "Chilli",
+    "direct": ["1","2"],
+    "house": ["1"],
+    "ending": ["2"]
+  },
+  {
+    "sl": 44,
+    "dream": "Bamboo Shoot",
+    "direct": ["1","11"],
+    "house": ["1"],
+    "ending": ["1"]
+  },
+  {
+    "sl": 45,
+    "dream": "Tool used to cut wood",
+    "direct": ["1","57","61","67"],
+    "house": [],
+    "ending": ["6"]
+  },
+  {
+    "sl": 46,
+    "dream": "Tools : cutter, chopper, hammer",
+    "direct": ["07","17","27","47","67","71","87"],
+    "house": [],
+    "ending": ["7"]
+  },
+  {
+    "sl": 47,
+    "dream": "An event or a shopping place",
+    "direct": ["18","28","38","52","58","62"],
+    "house": [],
+    "ending": ["8"]
+  },
+  {
+    "sl": 48,
+    "dream": "Money",
+    "direct": ["00","14","15","20","25","35","50"],
+    "house": [],
+    "ending": ["0","5"]
+  },
+  {
+    "sl": 49,
+    "dream": "Small water body",
+    "direct": ["00","01","02","80","90"],
+    "house": ["4","7"],
+    "ending": ["0"]
+  },
+  {
+    "sl": 50,
+    "dream": "Tools : cutter, chopper, hammer",
+    "direct": ["07","17","27","47","67","71","87"],
+    "house": [],
+    "ending": ["7"]
+  },
+  {
+    "sl": 51,
+    "dream": "An event or a shopping place",
+    "direct": ["18","28","38","52","58","62"],
+    "house": ["4","7"],
+    "ending": ["0"]
+  },
+  {
+    "sl": 52,
+    "dream": "Footpath or a road made of bricks",
+    "direct": ["19","61","71","91"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 53,
+    "dream": "Automobile : 4 wheeler",
+    "direct": ["21","24","54","62","64"],
+    "house": ["8"],
+    "ending": ["4"]
+  },
+  {
+    "sl": 54,
+    "dream": "Automobile : 2/3 wheeler",
+    "direct": ["52","53","54","58","60","62","68"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 55,
+    "dream": "God",
+    "direct": ["09","13","29","89"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 56,
+    "dream": "Book, pen, paper",
+    "direct": ["00","02","05"],
+    "house": ["0"],
+    "ending": ["3"]
+  },
+  {
+    "sl": 57,
+    "dream": "Earthquake",
+    "direct": ["00","07","08","14","41","75","95"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 58,
+    "dream": "Ghost or apparition",
+    "direct": ["52","54","58","62","64","68"],
+    "house": ["9"],
+    "ending": ["9"]
+  },
+  {
+    "sl": 59,
+    "dream": "Oven, kiln, fireplace",
+    "direct": ["12","31","63","66","68"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 60,
+    "dream": "Fire",
+    "direct": [],
+    "house": [],
+    "ending": ["0"]
+  },
+  {
+    "sl": 61,
+    "dream": "Hand Pump",
+    "direct": ["2","3","7","17","18","20","71"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 62,
+    "dream": "Water Carrier",
+    "direct": ["8"],
+    "house": ["8"],
+    "ending": ["8"]
+  },
+  {
+    "sl": 63,
+    "dream": "Lake",
+    "direct": ["6"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 64,
+    "dream": "Boat",
+    "direct": ["3"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 65,
+    "dream": "Rice Chopper",
+    "direct": ["8"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 66,
+    "dream": "Big river",
+    "direct": ["8"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 67,
+    "dream": "Cooking pan",
+    "direct": ["2"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 69,
+    "dream": "Shoe",
+    "direct": ["8"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 70,
+    "dream": "Train",
+    "direct": ["9"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 71,
+    "dream": "Temple",
+    "direct": ["1","2","9"],
+    "house": [],
+    "ending": []
+  },
+  {
+    "sl": 73,
+    "dream": "Pencil",
+    "direct": ["7","77","79"],
+    "house": ["7"],
+    "ending": ["7"]
+  }
+]
