@@ -18,8 +18,46 @@ function getResultsData(){
     .then(data => Array.isArray(data) ? data : (data && Array.isArray(data.items) ? data.items : []));
 }
 
+function formatTodayLabel(){
+  try {
+    const d = new Date();
+    const day = d.getDate();
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const mon = months[d.getMonth()];
+    const year = d.getFullYear();
+    return `${day} ${mon} ${year}`;
+  } catch { return ''; }
+}
+
+function ensureTodayPlaceholders(items){
+  const sessions = ['Morning','Afternoon','Evening'];
+  const today = formatTodayLabel();
+  if(!today) return items;
+  const hasToday = {
+    Morning: false,
+    Afternoon: false,
+    Evening: false
+  };
+  for(const r of items){
+    if(r && r.Date === today && hasToday.hasOwnProperty(r.Session)){
+      hasToday[r.Session] = true;
+    }
+  }
+  const placeholders = [];
+  for(const s of sessions){
+    if(!hasToday[s]){
+      placeholders.push({ Date: today, Session: s, FR: 'XX', SR: 'XX' });
+    }
+  }
+  if(placeholders.length){
+    return [...placeholders, ...items];
+  }
+  return items;
+}
+
 getResultsData().then(items => {
     if(!items || items.length === 0) return;
+    items = ensureTodayPlaceholders(items);
 
     // Per-session section (only when sessionName is defined on the page)
     const hasSession = (typeof sessionName !== 'undefined' && sessionName);
@@ -38,7 +76,7 @@ getResultsData().then(items => {
       const lastEl = document.getElementById('results-body');
       if(lastEl){
         lastEl.innerHTML = '';
-        sessionData.slice(0,5).forEach(r=>{
+        sessionData.slice(1,6).forEach(r=>{
           const tr = document.createElement('tr');
           tr.innerHTML = `<td>${r.Date}</td><td>${r.FR}</td><td>${r.SR}</td>`;
           lastEl.appendChild(tr);
@@ -66,22 +104,37 @@ getResultsData().then(items => {
       const isHomeSnippet = document.querySelector('.previous-results-home') !== null && !resultsPage;
 
       if(isHomeSnippet){
-        // Home: show previous results (exclude the latest per session)
         allEl.innerHTML = '';
-        const latestBySession = {};
-        for(const r of allSorted){
-          if(!latestBySession[r.Session]) latestBySession[r.Session] = r;
+        const card = document.querySelector('.previous-results-home');
+        const link = card ? card.querySelector('a[href*="results.html"]') : null;
+        if(typeof sessionName !== 'undefined' && sessionName){
+          const sessionOnly = allSorted.filter(r => r.Session === sessionName);
+          const latest = sessionOnly[0];
+          const prev = sessionOnly.slice(1); // exclude latest for this session
+          prev.forEach(r=>{
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${r.Date}</td><td>${r.FR}</td><td>${r.SR}</td>`;
+            allEl.appendChild(tr);
+          });
+          if(link){
+            try { link.href = `results.html?session=${encodeURIComponent(sessionName)}`; } catch {}
+          }
+        } else {
+          const latestBySession = {};
+          for(const r of allSorted){
+            if(!latestBySession[r.Session]) latestBySession[r.Session] = r;
+          }
+          allSorted.filter(r => latestBySession[r.Session] !== r).forEach(r=>{
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${r.Session}</td><td>${r.Date}</td><td>${r.FR}</td><td>${r.SR}</td>`;
+            allEl.appendChild(tr);
+          });
         }
-        allSorted.filter(r => latestBySession[r.Session] !== r).forEach(r=>{
-          const tr = document.createElement('tr');
-          tr.innerHTML = `<td>${r.Session}</td><td>${r.Date}</td><td>${r.FR}</td><td>${r.SR}</td>`;
-          allEl.appendChild(tr);
-        });
       } else if(resultsPage) {
-        // Results page: filter + pagination
         const filterSel = document.getElementById('session-filter');
         const loadMoreBtn = document.getElementById('load-more');
-        let currentFilter = (filterSel && filterSel.value) || 'all';
+        const urlFilter = (new URLSearchParams(location.search).get('session')) || '';
+        let currentFilter = (urlFilter && ['Morning','Afternoon','Evening'].includes(urlFilter)) ? urlFilter : ((filterSel && filterSel.value) || 'all');
         let shown = 0;
         const pageSize = 50;
 
@@ -108,6 +161,9 @@ getResultsData().then(items => {
         }
 
         if(filterSel){
+          if(currentFilter && currentFilter !== 'all'){
+            try { filterSel.value = currentFilter; } catch {}
+          }
           filterSel.addEventListener('change', () => {
             currentFilter = filterSel.value;
             render(true);
@@ -117,7 +173,6 @@ getResultsData().then(items => {
           loadMoreBtn.addEventListener('click', () => render(false));
         }
 
-        // initial render
         render(true);
       }
     }
