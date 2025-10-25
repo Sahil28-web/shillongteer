@@ -1,45 +1,11 @@
-[{
-    "Date": "26 Oct 2025",
+[  {
+    "Date": "23 Oct 2025",
     "Session": "Morning",
-    "FR": "95",
-    "SR": "84"
+    "FR": "65",
+    "SR": "88"
   },
   {
-    "Date": "25 Oct 2025",
-    "Session": "Afternoon",
-    "FR": "52",
-    "SR": "55"
-  },
-  {
-    "Date": "25 Oct 2025",
-    "Session": "Evening",
-    "FR": "32",
-    "SR": "04"
-  }, {
-    "Date": " Oct 2025",
-    "Session": "Morning",
-    "FR": "64",
-    "SR": "xx"
-  },
-  {
-    "Date": "52 Oct 2025",
-    "Session": "Afternoon",
-    "FR": "52",
-    "SR": "55"
-  },
-  {
-    "Date": "16 Oct 2025",
-    "Session": "Evening",
-    "FR": "85",
-    "SR": "12 "
-  }, {
-    "Date": "15 Oct 2025",
-    "Session": "Morning",
-    "FR": "64",
-    "SR": "xx"
-  },
-  {
-    "Date": "14 Oct 2025",
+    "Date": "19 Oct 2025",
     "Session": "Afternoon",
     "FR": "52",
     "SR": "55"
