@@ -46,7 +46,7 @@ function ensureTodayPlaceholders(items){
   const placeholders = [];
   for(const s of sessions){
     if(!hasToday[s]){
-      placeholders.push({ Date: today, Session: s, FR: 'XX', SR: 'XX' });
+      placeholders.push({ Date: today, Session: s, FR: '45', SR: 'XX' });
     }
   }
   if(placeholders.length){
