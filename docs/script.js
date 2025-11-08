@@ -1,68 +1,95 @@
-// --- script.js (Final Clean Version) ---
+// Fetch and render dream numbers
+fetch('dream.json')
+  .then(r => r.json())
+  .then(raw => {
+    const body = document.getElementById('dream-body');
+    const search = document.getElementById('dream-search');
+    const fieldSel = document.getElementById('dream-field');
+    const clearBtn = document.getElementById('dream-clear');
+    const countEl = document.getElementById('dream-count');
+    if(!body) return
 
-// Fetch and display results
-fetch('results.json?_=' + new Date().getTime())
-  .then(res => res.json())
-  .then(results => {
-    const body = document.getElementById('result-body');
-    if (!body) return;
-
-    // Get today's date in same format as your JSON
-    const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0');
-    const month = today.toLocaleString('default', { month: 'short' });
-    const year = today.getFullYear();
-    const todayStr = `${day} ${month} ${year}`;
-
-    // Check if today's date exists in results.json
-    const todayExists = results.items.some(item => item.Date === todayStr);
-
-    // If not found, auto-create blank sessions for today
-    if (!todayExists) {
-      results.items.unshift({
-        Date: todayStr,
-        Sessions: [
-          { Session: "Morning", FR: "", SR: "" },
-          { Session: "Afternoon", FR: "", SR: "" },
-          { Session: "Evening", FR: "", SR: "" }
-        ]
+    let filtered = raw;
+    function render() {
+      body.innerHTML = "";
+      filtered.forEach((r, i) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${i+1}</td>
+          <td>${r.Number}</td>
+          <td>${r.Meaning}</td>
+        `;
+        body.appendChild(tr);
       });
+      countEl.textContent = filtered.length;
     }
 
-    // Clear previous display
-    body.innerHTML = '';
+    function filter() {
+      const s = search.value.trim().toLowerCase();
+      const f = fieldSel.value;
+      filtered = raw.filter(r => {
+        if(!s) return true;
+        if(f === 'number') return String(r.Number).includes(s);
+        if(f === 'meaning') return r.Meaning.toLowerCase().includes(s);
+        return true;
+      });
+      render();
+    }
 
-    // Show all results (latest first)
-    results.items.forEach(item => {
-      const dateEl = document.createElement('h3');
-      dateEl.className = 'date-title';
-      dateEl.textContent = `${item.Date}`;
-      body.appendChild(dateEl);
+    search.addEventListener('input', filter);
+    fieldSel.addEventListener('change', filter);
+    clearBtn.addEventListener('click', () => {
+      search.value = '';
+      filter();
+    });
 
-      if (item.Sessions) {
-        const table = document.createElement('table');
-        table.className = 'result-table';
+    render();
+  })
+  .catch(err => {
+    console.error('Error loading dream numbers', err);
+  });
 
-        const header = document.createElement('tr');
-        header.innerHTML = '<th>Session</th><th>FR</th><th>SR</th>';
-        table.appendChild(header);
+// Fetch and render common numbers
+fetch('common.json')
+  .then(r => r.json())
+  .then(raw => {
+    const body = document.getElementById('common-body');
+    if(!body) return
 
-        item.Sessions.forEach(session => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${session.Session}</td>
-            <td>${session.FR || '-'}</td>
-            <td>${session.SR || '-'}</td>
-          `;
-          table.appendChild(tr);
-        });
-
-        body.appendChild(table);
-      }
+    raw.items.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${item.Date}</td>
+        <td>${item.Place}</td>
+        <td>${item.Rows.map(r => `
+          <div>Direct: ${r.Direct} | House: ${r.House} | Ending: ${r.Ending}</div>
+        `).join('')}</td>
+      `;
+      body.appendChild(tr);
     });
   })
   .catch(err => {
-    console.error('Error loading results:', err);
-    document.getElementById('result-body').innerHTML =
-      '<p>Failed to load results. Please refresh later.</p>';
+    console.error('Error loading common numbers', err);
+  });
+
+// Fetch and render results
+fetch('results.json')
+  .then(r => r.json())
+  .then(raw => {
+    const body = document.getElementById('result-body');
+    if(!body) return
+
+    raw.items.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${item.Date}</td>
+        <td>${item.Session}</td>
+        <td>${item.FR}</td>
+        <td>${item.SR}</td>
+      `;
+      body.appendChild(tr);
+    });
+  })
+  .catch(err => {
+    console.error('Error loading results', err);
   });
