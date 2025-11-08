@@ -1,84 +1,97 @@
-// script.js — Fixed version (Keeps old data + removes xx placeholders + auto date update)
+// script.js — Cleaned + fixed version (no fake XX, keeps all results)
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const sessionName = typeof window.sessionName !== "undefined" ? window.sessionName : null;
-  const frEl = document.getElementById("fr");
-  const srEl = document.getElementById("sr");
-  const dateEl = document.getElementById("res-date");
-  const resultsBody = document.getElementById("results-body");
-  const allResultsBody = document.getElementById("all-results-body");
+// Format today's date like "08 Nov 2025"
+function getTodayDate() {
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, "0");
+  const month = today.toLocaleString("en-US", { month: "short" });
+  const year = today.getFullYear();
+  return `${day} ${month} ${year}`;
+}
 
-  async function fetchResults() {
-    try {
-      const res = await fetch("results.json?v=" + Date.now());
-      return await res.json();
-    } catch {
-      const fallback = document.getElementById("results-fallback");
-      return fallback ? JSON.parse(fallback.textContent) : [];
-    }
-  }
+const sessions = ["Morning", "Afternoon", "Evening"];
+const today = getTodayDate();
 
-  function formatResult(val) {
-    return !val || val === "xx" ? "–" : val;
-  }
+// Load results.json
+fetch("results.json?_=" + new Date().getTime())
+  .then((res) => res.json())
+  .then((data) => {
+    if (!Array.isArray(data)) data = [];
 
-  function getTodayDate() {
-    const d = new Date();
-    const dd = String(d.getDate()).padStart(2, "0");
-    const mm = d.toLocaleString("en", { month: "short" });
-    const yyyy = d.getFullYear();
-    return `${dd} ${mm} ${yyyy}`;
-  }
+    let updated = false;
 
-  async function init() {
-    const data = await fetchResults();
-    const today = getTodayDate();
-
-    // Ensure today's entry exists for all sessions
-    const sessions = ["Morning", "Afternoon", "Evening"];
+    // Add today's blank entries if missing
     sessions.forEach((session) => {
-      const hasToday = data.some((r) => r.Date === today && r.Session === session);
-      if (!hasToday) {
-        data.unshift({
-          Date: today,
-          Session: session,
-          FR: "",
-          SR: ""
-        });
+      const exists = data.some(
+        (r) => r.Date === today && r.Session === session
+      );
+      if (!exists) {
+        data.unshift({ Date: today, Session: session, FR: "", SR: "" });
+        updated = true;
       }
     });
 
-    // Update session-specific page (index.html, afternoon.html, evening.html)
-    if (sessionName && frEl && srEl && dateEl) {
-      const todayResult = data.find((r) => r.Date === today && r.Session === sessionName);
-      frEl.textContent = formatResult(todayResult?.FR);
-      srEl.textContent = formatResult(todayResult?.SR);
-      dateEl.textContent = today;
+    // Show current session results (for index/afternoon/evening.html)
+    if (typeof sessionName !== "undefined") {
+      const sessionData = data.find(
+        (r) => r.Date === today && r.Session === sessionName
+      );
+      const frEl = document.getElementById("fr");
+      const srEl = document.getElementById("sr");
+      const dateEl = document.getElementById("res-date");
+
+      if (frEl && srEl && dateEl) {
+        if (sessionData && (sessionData.FR || sessionData.SR)) {
+          frEl.textContent = sessionData.FR || "--";
+          srEl.textContent = sessionData.SR || "--";
+        } else {
+          frEl.textContent = "--";
+          srEl.textContent = "--";
+        }
+        dateEl.textContent = sessionData ? sessionData.Date : today;
+      }
+
+      // Fill last results table for this session
+      const tbody = document.getElementById("results-body");
+      if (tbody) {
+        const filtered = data
+          .filter((r) => r.Session === sessionName)
+          .slice(0, 10);
+        tbody.innerHTML = filtered
+          .map(
+            (r) => `
+          <tr>
+            <td>${r.Date}</td>
+            <td>${r.FR || "--"}</td>
+            <td>${r.SR || "--"}</td>
+          </tr>`
+          )
+          .join("");
+      }
     }
 
-    // Update "Last Results" section (like in index.html or evening.html)
-    if (resultsBody) {
-      const filtered = data.filter((r) => r.Session === sessionName).slice(0, 10);
-      resultsBody.innerHTML = filtered
+    // Show all results (for results.html)
+    const allBody = document.getElementById("all-results-body");
+    if (allBody) {
+      const sorted = data.sort((a, b) => new Date(b.Date) - new Date(a.Date));
+      allBody.innerHTML = sorted
         .map(
-          (r) =>
-            `<tr><td>${r.Date}</td><td>${formatResult(r.FR)}</td><td>${formatResult(r.SR)}</td></tr>`
+          (r) => `
+          <tr>
+            <td>${r.Session}</td>
+            <td>${r.Date}</td>
+            <td>${r.FR || "--"}</td>
+            <td>${r.SR || "--"}</td>
+          </tr>`
         )
         .join("");
     }
 
-    // Update "All Results" page (results.html)
-    if (allResultsBody) {
-      allResultsBody.innerHTML = data
-        .map(
-          (r) =>
-            `<tr><td>${r.Session}</td><td>${r.Date}</td><td>${formatResult(
-              r.FR
-            )}</td><td>${formatResult(r.SR)}</td></tr>`
-        )
-        .join("");
-    }
-  }
-
-  init();
-});
+    if (updated) console.log("Auto-added today's blank entries:", today);
+  })
+  .catch((err) => {
+    console.error("Error loading results:", err);
+    const allBody = document.getElementById("all-results-body");
+    if (allBody)
+      allBody.innerHTML = `<tr><td colspan="4">Error loading results</td></tr>`;
+  });
