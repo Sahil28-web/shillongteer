@@ -2,118 +2,54 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <title>All Previous Teer Results</title>
-  <link rel="stylesheet" href="style.css?v=20251024" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Shillong Teer Results</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="stylesheet" href="style.css?v=20251108" />
 </head>
 <body>
   <header>
-    <h1>All Previous Teer Results</h1>
+    <h1>Shillong Teer Full Results</h1>
     <nav>
       <a href="index.html">Morning</a>
+      <a href="afternoon.html">Afternoon</a>
+      <a href="evening.html">Evening</a>
       <a href="about.html">About</a>
     </nav>
   </header>
 
   <main>
-    <section id="results-page">
-      <h2>Previous Results</h2>
-      <div class="results-controls">
-        <label>Session:
-          <select id="session-filter">
-            <option value="all">All</option>
-            <option value="Morning">Morning</option>
-            <option value="Afternoon">Afternoon</option>
-            <option value="Evening">Evening</option>
-          </select>
-        </label>
-      </div>
+    <section>
+      <h2>All Sessions Results</h2>
       <table>
         <thead>
-          <tr><th>Session</th><th>Date</th><th>FR</th><th>SR</th></tr>
+          <tr>
+            <th>Session</th>
+            <th>Date</th>
+            <th>FR</th>
+            <th>SR</th>
+          </tr>
         </thead>
         <tbody id="all-results-body">
           <tr><td colspan="4">Loading…</td></tr>
         </tbody>
       </table>
-      <div style="text-align:center; margin-top: 1rem;">
-        <button id="load-more">Load More</button>
-      </div>
     </section>
+
+    <p id="last-updated" style="text-align:center; margin-top:10px; font-size:0.9em; color:#555;"></p>
   </main>
 
   <footer>
-    <p>© 2025 Morning Teer Results</p>
+    <p>© 2025 Shillong Teer Results</p>
   </footer>
 
-  <!-- Inline fallback for results when fetch is blocked (e.g., file://) -->
-  <script type="application/json" id="results-fallback">[ {
-      "Date": "18 Oct 2025",
-      "Session": "Morning",
-      "FR": "62",
-      "SR": "88"
-    },
-    {
-      "Date": "18 Oct 2025",
-      "Session": "Afternoon",
-      "FR": "41",
-      "SR": "55"
-    },
-    {
-      "Date": "18 Oct 2025",
-      "Session": "Evening",
-      "FR": "29",
-      "SR": "33"
-    },
-    {
-      "Date": "17 Oct 2025",
-      "Session": "Morning",
-      "FR": "62",
-      "SR": "88"
-    },
-    {
-      "Date": "17 Oct 2025",
-      "Session": "Afternoon",
-      "FR": "41",
-      "SR": "55"
-    },
-    {
-      "Date": "17 Oct 2025",
-      "Session": "Evening",
-      "FR": "29",
-      "SR": "33"
-    },
-    {
-      "Date": "16 Oct 2025",
-      "Session": "Morning",
-      "FR": "45",
-      "SR": "21"
-    },
-    {
-      "Date": "16 Oct 2025",
-      "Session": "Afternoon",
-      "FR": "50",
-      "SR": "44"
-    },
-    {
-      "Date": "16 Oct 2025",
-      "Session": "Evening",
-      "FR": "31",
-      "SR": "39"
-    }
-  ]</script>
-  <script src="script.js?v=20251024"></script>
+  <script src="script.js?v=20251108"></script>
   <script>
-    (function(){
-      const SITE_VERSION = '2025-10-24-1';
-      if (localStorage.getItem('SITE_VERSION') !== SITE_VERSION) {
-        localStorage.setItem('SITE_VERSION', SITE_VERSION);
-        location.reload();
-      }
-    })();
+    // Show last updated date
+    document.getElementById("last-updated").textContent =
+      "Last updated on: " + new Date().toLocaleString();
   </script>
 </body>
 </html>
