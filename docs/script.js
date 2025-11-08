@@ -1,90 +1,86 @@
-// --- script.js ---
-// Auto-manages results display and daily entries
+// script.js — Shillong Teer Auto Update System
 
-async function loadResults() {
-  try {
-    const res = await fetch("results.json", { cache: "no-store" });
-    const data = await res.json();
+const sessions = ["Morning", "Afternoon", "Evening"];
+const today = new Date();
+const todayStr = today.toLocaleDateString("en-GB", {
+  day: "2-digit",
+  month: "short",
+  year: "numeric",
+}).replace(/ /g, " ");
 
-    const today = new Date();
-    const formattedDate = today.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    }).replace(/ /g, " ");
+// Fetch results.json
+fetch("results.json?_=" + new Date().getTime())
+  .then((r) => r.json())
+  .then((data) => {
+    // --- Step 1: Ensure today's blank entries exist for all sessions ---
+    const existingDates = data.map((e) => e.Date);
+    const hasToday = existingDates.includes(todayStr);
 
-    // Sessions to check for each day
-    const sessions = ["Morning", "Afternoon", "Evening"];
-
-    // --- Step 1: Ensure today's entries exist ---
-    const todayExists = data.items.some((item) => item.Date === formattedDate);
-    if (!todayExists) {
-      sessions.forEach((session) => {
-        data.items.push({
-          Date: formattedDate,
-          Session: session,
-          FR: "",
-          SR: "",
+    if (!hasToday) {
+      sessions.forEach((s) => {
+        data.unshift({
+          Date: todayStr,
+          Session: s,
+          FR: "-",
+          SR: "-",
         });
       });
-
-      // Save new structure back to results.json
-      await saveResults(data);
     }
 
-    // --- Step 2: Display results ---
-    renderResults(data.items);
-  } catch (err) {
-    console.error("Error loading results:", err);
-  }
-}
+    // --- Step 2: Display current session result (e.g., Morning.html) ---
+    const page = window.location.pathname.toLowerCase();
+    let session = "Morning";
+    if (page.includes("afternoon")) session = "Afternoon";
+    if (page.includes("evening")) session = "Evening";
 
-// Save updated results.json (requires write permission from backend or GitHub API)
-async function saveResults(data) {
-  // This part can’t actually write to GitHub directly from the browser.
-  // If you deploy with Netlify or a backend, connect this via an API or GitHub Action.
-  // For now, it just logs the new structure so you can copy & paste manually.
-  console.log("Updated results.json:", JSON.stringify(data, null, 2));
-}
+    const latest = data.find((e) => e.Date === todayStr && e.Session === session);
 
-// --- Step 3: Render the result table ---
-function renderResults(items) {
-  const container = document.getElementById("result-body");
-  if (!container) return;
+    if (latest) {
+      const fr = document.getElementById("fr");
+      const sr = document.getElementById("sr");
+      const dateEl = document.getElementById("result-date");
 
-  container.innerHTML = "";
+      if (fr) fr.textContent = latest.FR !== "-" ? latest.FR : "-";
+      if (sr) sr.textContent = latest.SR !== "-" ? latest.SR : "-";
+      if (dateEl) dateEl.textContent = todayStr;
+    }
 
-  items
-    .slice()
-    .reverse() // show latest first
-    .forEach((item) => {
-      const row = document.createElement("tr");
+    // --- Step 3: Handle Previous Results Page ---
+    const prevTable = document.getElementById("prev-body");
+    if (prevTable) {
+      const sel = document.getElementById("session-select");
+      const loadBtn = document.getElementById("load-more");
+      let visible = 10;
 
-      const dateCell = document.createElement("td");
-      dateCell.textContent = item.Date;
+      function render(sessionFilter) {
+        prevTable.innerHTML = "";
+        const filtered = data.filter((e) => e.Session === sessionFilter);
+        filtered.slice(0, visible).forEach((e) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${e.Session}</td>
+            <td>${e.Date}</td>
+            <td>${e.FR}</td>
+            <td>${e.SR}</td>
+          `;
+          prevTable.appendChild(row);
+        });
+      }
 
-      const sessionCell = document.createElement("td");
-      sessionCell.textContent = item.Session;
+      sel.addEventListener("change", () => {
+        visible = 10;
+        render(sel.value);
+      });
 
-      const frCell = document.createElement("td");
-      frCell.textContent =
-        item.FR && item.FR !== "xx" && item.FR !== "45" ? item.FR : "";
+      loadBtn.addEventListener("click", () => {
+        visible += 10;
+        render(sel.value);
+      });
 
-      const srCell = document.createElement("td");
-      srCell.textContent =
-        item.SR && item.SR !== "xx" && item.SR !== "45" ? item.SR : "";
+      render(sel.value);
+    }
 
-      row.appendChild(dateCell);
-      row.appendChild(sessionCell);
-      row.appendChild(frCell);
-      row.appendChild(srCell);
-
-      container.appendChild(row);
-    });
-}
-
-// --- Step 4: Run automatically ---
-loadResults();
-
-// Optional: Auto-refresh every 10 minutes
-setInterval(loadResults, 10 * 60 * 1000);
+    // --- Step 4: Save updated results.json (for GitHub Pages we just simulate) ---
+    console.log("Data updated locally for display:", data);
+  })
+  .catch((err) => console.error("Error loading results.json:", err));
