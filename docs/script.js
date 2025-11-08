@@ -1,86 +1,83 @@
-// script.js — Shillong Teer Auto Update System
+// script.js — Shillong Teer Results (Fixed Version by GPT-5)
 
-const sessions = ["Morning", "Afternoon", "Evening"];
-const today = new Date();
-const todayStr = today.toLocaleDateString("en-GB", {
-  day: "2-digit",
-  month: "short",
-  year: "numeric",
-}).replace(/ /g, " ");
+// Path to your results file (change if needed)
+const RESULTS_FILE = 'results.json';
 
-// Fetch results.json
-fetch("results.json?_=" + new Date().getTime())
-  .then((r) => r.json())
-  .then((data) => {
-    // --- Step 1: Ensure today's blank entries exist for all sessions ---
-    const existingDates = data.map((e) => e.Date);
-    const hasToday = existingDates.includes(todayStr);
+// Elements
+const tableBody = document.querySelector('#results-body');
+const sessionSelect = document.querySelector('#session-select');
+const loadMoreBtn = document.querySelector('#load-more');
 
-    if (!hasToday) {
-      sessions.forEach((s) => {
-        data.unshift({
-          Date: todayStr,
-          Session: s,
-          FR: "-",
-          SR: "-",
-        });
+let allResults = [];
+let shownCount = 0;
+const BATCH_SIZE = 20;
+
+// Utility — get today’s date in “DD MMM YYYY”
+function getToday() {
+  return new Date().toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric'
+  }).replace(',', '');
+}
+
+// Load JSON file without cache
+async function loadJSON() {
+  const response = await fetch(`${RESULTS_FILE}?v=${Date.now()}`);
+  if (!response.ok) throw new Error('Failed to load results.json');
+  return await response.json();
+}
+
+// Ensure today’s blank entries exist for all 3 sessions
+function ensureTodayExists(data) {
+  const today = getToday();
+  const sessions = ['Morning', 'Evening', 'Night'];
+
+  sessions.forEach(session => {
+    const exists = data.some(r => r.Date === today && r.Session === session);
+    if (!exists) {
+      data.unshift({
+        Session: session,
+        Date: today,
+        FR: '',
+        SR: ''
       });
     }
+  });
 
-    // --- Step 2: Display current session result (e.g., Morning.html) ---
-    const page = window.location.pathname.toLowerCase();
-    let session = "Morning";
-    if (page.includes("afternoon")) session = "Afternoon";
-    if (page.includes("evening")) session = "Evening";
+  return data;
+}
 
-    const latest = data.find((e) => e.Date === todayStr && e.Session === session);
+// Render results in table
+function renderResults(session) {
+  const filtered = allResults.filter(r => r.Session === session);
+  tableBody.innerHTML = '';
 
-    if (latest) {
-      const fr = document.getElementById("fr");
-      const sr = document.getElementById("sr");
-      const dateEl = document.getElementById("result-date");
+  if (!filtered.length) {
+    tableBody.innerHTML = '<tr><td colspan="4">No results found</td></tr>';
+    return;
+  }
 
-      if (fr) fr.textContent = latest.FR !== "-" ? latest.FR : "-";
-      if (sr) sr.textContent = latest.SR !== "-" ? latest.SR : "-";
-      if (dateEl) dateEl.textContent = todayStr;
-    }
+  const nextBatch = filtered.slice(shownCount, shownCount + BATCH_SIZE);
+  nextBatch.forEach(r => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${r.Session}</td>
+      <td>${r.Date}</td>
+      <td>${r.FR || '-'}</td>
+      <td>${r.SR || '-'}</td>
+    `;
+    tableBody.appendChild(row);
+  });
 
-    // --- Step 3: Handle Previous Results Page ---
-    const prevTable = document.getElementById("prev-body");
-    if (prevTable) {
-      const sel = document.getElementById("session-select");
-      const loadBtn = document.getElementById("load-more");
-      let visible = 10;
+  shownCount += BATCH_SIZE;
 
-      function render(sessionFilter) {
-        prevTable.innerHTML = "";
-        const filtered = data.filter((e) => e.Session === sessionFilter);
-        filtered.slice(0, visible).forEach((e) => {
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>${e.Session}</td>
-            <td>${e.Date}</td>
-            <td>${e.FR}</td>
-            <td>${e.SR}</td>
-          `;
-          prevTable.appendChild(row);
-        });
-      }
+  if (shownCount >= filtered.length) {
+    loadMoreBtn.style.display = 'none';
+  } else {
+    loadMoreBtn.style.display = 'block';
+  }
+}
 
-      sel.addEventListener("change", () => {
-        visible = 10;
-        render(sel.value);
-      });
-
-      loadBtn.addEventListener("click", () => {
-        visible += 10;
-        render(sel.value);
-      });
-
-      render(sel.value);
-    }
-
-    // --- Step 4: Save updated results.json (for GitHub Pages we just simulate) ---
-    console.log("Data updated locally for display:", data);
-  })
-  .catch((err) => console.error("Error loading results.json:", err));
+// Initialize page
+async function init() {
