@@ -1,83 +1,68 @@
-// script.js — Shillong Teer Results (Fixed Version by GPT-5)
+// --- script.js (Final Clean Version) ---
 
-// Path to your results file (change if needed)
-const RESULTS_FILE = 'results.json';
+// Fetch and display results
+fetch('results.json?_=' + new Date().getTime())
+  .then(res => res.json())
+  .then(results => {
+    const body = document.getElementById('result-body');
+    if (!body) return;
 
-// Elements
-const tableBody = document.querySelector('#results-body');
-const sessionSelect = document.querySelector('#session-select');
-const loadMoreBtn = document.querySelector('#load-more');
+    // Get today's date in same format as your JSON
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = today.toLocaleString('default', { month: 'short' });
+    const year = today.getFullYear();
+    const todayStr = `${day} ${month} ${year}`;
 
-let allResults = [];
-let shownCount = 0;
-const BATCH_SIZE = 20;
+    // Check if today's date exists in results.json
+    const todayExists = results.items.some(item => item.Date === todayStr);
 
-// Utility — get today’s date in “DD MMM YYYY”
-function getToday() {
-  return new Date().toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric'
-  }).replace(',', '');
-}
-
-// Load JSON file without cache
-async function loadJSON() {
-  const response = await fetch(`${RESULTS_FILE}?v=${Date.now()}`);
-  if (!response.ok) throw new Error('Failed to load results.json');
-  return await response.json();
-}
-
-// Ensure today’s blank entries exist for all 3 sessions
-function ensureTodayExists(data) {
-  const today = getToday();
-  const sessions = ['Morning', 'Evening', 'Night'];
-
-  sessions.forEach(session => {
-    const exists = data.some(r => r.Date === today && r.Session === session);
-    if (!exists) {
-      data.unshift({
-        Session: session,
-        Date: today,
-        FR: '',
-        SR: ''
+    // If not found, auto-create blank sessions for today
+    if (!todayExists) {
+      results.items.unshift({
+        Date: todayStr,
+        Sessions: [
+          { Session: "Morning", FR: "", SR: "" },
+          { Session: "Afternoon", FR: "", SR: "" },
+          { Session: "Evening", FR: "", SR: "" }
+        ]
       });
     }
+
+    // Clear previous display
+    body.innerHTML = '';
+
+    // Show all results (latest first)
+    results.items.forEach(item => {
+      const dateEl = document.createElement('h3');
+      dateEl.className = 'date-title';
+      dateEl.textContent = `${item.Date}`;
+      body.appendChild(dateEl);
+
+      if (item.Sessions) {
+        const table = document.createElement('table');
+        table.className = 'result-table';
+
+        const header = document.createElement('tr');
+        header.innerHTML = '<th>Session</th><th>FR</th><th>SR</th>';
+        table.appendChild(header);
+
+        item.Sessions.forEach(session => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${session.Session}</td>
+            <td>${session.FR || '-'}</td>
+            <td>${session.SR || '-'}</td>
+          `;
+          table.appendChild(tr);
+        });
+
+        body.appendChild(table);
+      }
+    });
+  })
+  .catch(err => {
+    console.error('Error loading results:', err);
+    document.getElementById('result-body').innerHTML =
+      '<p>Failed to load results. Please refresh later.</p>';
   });
-
-  return data;
-}
-
-// Render results in table
-function renderResults(session) {
-  const filtered = allResults.filter(r => r.Session === session);
-  tableBody.innerHTML = '';
-
-  if (!filtered.length) {
-    tableBody.innerHTML = '<tr><td colspan="4">No results found</td></tr>';
-    return;
-  }
-
-  const nextBatch = filtered.slice(shownCount, shownCount + BATCH_SIZE);
-  nextBatch.forEach(r => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${r.Session}</td>
-      <td>${r.Date}</td>
-      <td>${r.FR || '-'}</td>
-      <td>${r.SR || '-'}</td>
-    `;
-    tableBody.appendChild(row);
-  });
-
-  shownCount += BATCH_SIZE;
-
-  if (shownCount >= filtered.length) {
-    loadMoreBtn.style.display = 'none';
-  } else {
-    loadMoreBtn.style.display = 'block';
-  }
-}
-
-// Initialize page
-async function init() {
