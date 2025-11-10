@@ -1,16 +1,6 @@
 // script.js — Cleaned + fixed version (no fake XX, keeps all results)
 
-// Format today's date like "08 Nov 2025"
-function getTodayDate() {
-  const today = new Date();
-  const day = String(today.getDate()).padStart(2, "0");
-  const month = today.toLocaleString("en-US", { month: "short" });
-  const year = today.getFullYear();
-  return `${day} ${month} ${year}`;
-}
-
 const sessions = ["Morning", "Afternoon", "Evening"];
-const today = getTodayDate();
 
 // Load results.json
 fetch("results.json?_=" + new Date().getTime())
@@ -18,24 +8,11 @@ fetch("results.json?_=" + new Date().getTime())
   .then((data) => {
     if (!Array.isArray(data)) data = [];
 
-    let updated = false;
-
-    // Add today's blank entries if missing
-    sessions.forEach((session) => {
-      const exists = data.some(
-        (r) => r.Date === today && r.Session === session
-      );
-      if (!exists) {
-        data.unshift({ Date: today, Session: session, FR: "", SR: "" });
-        updated = true;
-      }
-    });
-
     // Show current session results (for index/afternoon/evening.html)
     if (typeof sessionName !== "undefined") {
-      const sessionData = data.find(
-        (r) => r.Date === today && r.Session === sessionName
-      );
+      const sessionData = data
+        .filter((r) => r.Session === sessionName)
+        .sort((a, b) => new Date(b.Date) - new Date(a.Date))[0];
       const frEl = document.getElementById("fr");
       const srEl = document.getElementById("sr");
       const dateEl = document.getElementById("res-date");
@@ -48,7 +25,7 @@ fetch("results.json?_=" + new Date().getTime())
           frEl.textContent = "--";
           srEl.textContent = "--";
         }
-        dateEl.textContent = sessionData ? sessionData.Date : today;
+        dateEl.textContent = sessionData ? sessionData.Date : "--";
       }
 
       // Fill last results table for this session
@@ -56,6 +33,7 @@ fetch("results.json?_=" + new Date().getTime())
       if (tbody) {
         const filtered = data
           .filter((r) => r.Session === sessionName)
+          .sort((a, b) => new Date(b.Date) - new Date(a.Date))
           .slice(0, 10);
         tbody.innerHTML = filtered
           .map(
@@ -86,8 +64,6 @@ fetch("results.json?_=" + new Date().getTime())
         )
         .join("");
     }
-
-    if (updated) console.log("Auto-added today's blank entries:", today);
   })
   .catch((err) => {
     console.error("Error loading results:", err);
