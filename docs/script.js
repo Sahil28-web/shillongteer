@@ -71,3 +71,46 @@ fetch("results.json?_=" + new Date().getTime())
     if (allBody)
       allBody.innerHTML = `<tr><td colspan="4">Error loading results</td></tr>`;
   });
+
+// Load common.json into #common-number-box
+fetch("common.json?_=" + new Date().getTime())
+  .then((res) => res.json())
+  .then((data) => {
+    const box = document.getElementById("common-number-box");
+    if (!box) return;
+    const items = data && Array.isArray(data.items) ? data.items : [];
+    if (!items.length) {
+      box.textContent = "No data";
+      return;
+    }
+    const latest = items
+      .slice()
+      .sort((a, b) => new Date(b.Date) - new Date(a.Date))[0];
+    const rows = Array.isArray(latest.Rows) ? latest.Rows : [];
+    const header = `${latest.Place ? latest.Place + " – " : ""}${latest.Date || ""}`;
+    const rowsHtml = rows
+      .map(
+        (r) => `
+        <tr>
+          <td>${r.Direct || "--"}</td>
+          <td>${r.House || "--"}</td>
+          <td>${r.Ending || "--"}</td>
+        </tr>`
+      )
+      .join("");
+    box.innerHTML = `
+      <div><strong>${header}</strong></div>
+      <table>
+        <thead>
+          <tr><th>Direct</th><th>House</th><th>Ending</th></tr>
+        </thead>
+        <tbody>
+          ${rowsHtml}
+        </tbody>
+      </table>`;
+  })
+  .catch((err) => {
+    console.error("Error loading common numbers:", err);
+    const box = document.getElementById("common-number-box");
+    if (box) box.textContent = "Error loading";
+  });
