@@ -51,7 +51,15 @@ fetch("results.json?_=" + new Date().getTime())
     // Show all results (for results.html)
     const allBody = document.getElementById("all-results-body");
     if (allBody) {
-      const sorted = data.sort((a, b) => new Date(b.Date) - new Date(a.Date));
+      const params = new URLSearchParams(location.search);
+      const selected = params.get("session");
+      let list = data.slice();
+      if (selected && sessions.includes(selected)) {
+        list = list.filter((r) => r.Session === selected);
+        const h2 = document.querySelector("main h2");
+        if (h2) h2.textContent = selected + " Results";
+      }
+      const sorted = list.sort((a, b) => new Date(b.Date) - new Date(a.Date));
       allBody.innerHTML = sorted
         .map(
           (r) => `
